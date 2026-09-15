@@ -1,14 +1,17 @@
 
-
-struct Uniforms { // 32
-    w: u32, // 4
-    h: u32, // 4
-    tau: f32, // 4
-    u_lb: f32, // 4
-    w_object: u32, // 4
-    h_object: u32, // 4
-    is_first_step: u32, // 4
-    _pad: u32 // 4
+struct Uniforms {
+    w: u32,
+    h: u32,
+    tau: f32,
+    u_lb: f32,
+    w_object: u32,
+    h_object: u32,
+    is_first_step: u32,
+    obj_x: u32,
+    obj_y: u32,
+    _pad1: u32,
+    _pad2: u32,
+    _pad3: u32,
 };
 
 @group(0) @binding(0) var<uniform> uniforms: Uniforms;
@@ -20,16 +23,16 @@ struct Uniforms { // 32
 const EX: array<f32, 9> = array<f32, 9>(0.0, 1.0, 0.0, -1.0, 0.0, 1.0, -1.0, -1.0, 1.0);
 const EY: array<f32, 9> = array<f32, 9>(0.0, 0.0, 1.0, 0.0, -1.0, 1.0, 1.0, -1.0, -1.0);
 
-@compute @workgroup_size(8, 8) 
+@compute @workgroup_size(8, 8)
 fn compute_macros(@builtin(global_invocation_id) id: vec3<u32>) {
 
     let x = id.x;
     let y = id.y;
-    
+
     if ( x >= uniforms.w || y >= uniforms.h) {
         return;
     }
-    
+
     let cell_idx = y * uniforms.w + x;
     let idx = 9 * cell_idx;
 
@@ -52,4 +55,3 @@ fn compute_macros(@builtin(global_invocation_id) id: vec3<u32>) {
     velocity[cell_idx] = vec2<f32>(ux, uy);
 
 }
-

@@ -6,7 +6,11 @@ struct Uniforms {
     w_object: u32,
     h_object: u32,
     is_first_step: u32,
-    _pad: u32
+    obj_x: u32,
+    obj_y: u32,
+    _pad1: u32,
+    _pad2: u32,
+    _pad3: u32,
 };
 
 @group(0) @binding(0) var<uniform> uniforms: Uniforms;
@@ -40,10 +44,9 @@ fn vs(@builtin(vertex_index) vidx: u32) -> VOut {
     return out;
 }
 
-
 fn fluid_colormap(t: f32) -> vec3<f32> {
     let v = clamp(t, 0.0, 1.0);
-    
+
     let c0 = vec3<f32>(0.02, 0.04, 0.12);
     let c1 = vec3<f32>(0.05, 0.35, 0.75);
     let c2 = vec3<f32>(0.00, 0.80, 0.70);
@@ -64,7 +67,6 @@ fn fluid_colormap(t: f32) -> vec3<f32> {
 @fragment
 fn fs(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
 
-
     if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
         discard;
     }
@@ -83,7 +85,7 @@ fn fs(@location(0) uv: vec2<f32>) -> @location(0) vec4<f32> {
     let uy = velocity[cell_idx][1];
 
     let speed = sqrt( ux * ux + uy * uy  );
-    
+
     let max_speed = uniforms.u_lb * 1.5;
 
     let norm_speed = clamp(speed / max_speed, 0.0, 1.0);

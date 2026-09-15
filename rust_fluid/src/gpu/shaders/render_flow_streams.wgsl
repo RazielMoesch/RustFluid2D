@@ -6,7 +6,11 @@ struct Uniforms {
     w_object: u32,
     h_object: u32,
     is_first_step: u32,
-    _pad: u32
+    obj_x: u32,
+    obj_y: u32,
+    _pad1: u32,
+    _pad2: u32,
+    _pad3: u32,
 };
 
 @group(0) @binding(0) var<uniform> uniforms: Uniforms;

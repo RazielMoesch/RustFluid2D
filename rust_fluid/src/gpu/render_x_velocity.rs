@@ -2,17 +2,11 @@ use wgpu::VertexState;
 
 use crate::gpu::utils::{FRAGMENT, storage_buffer, uniform_buffer};
 
-
-
-
 pub struct RenderXVelocity {
     pub bgl0: wgpu::BindGroupLayout,
     pub bgl1: wgpu::BindGroupLayout,
     pub pipeline: wgpu::RenderPipeline
 }
-
-
-
 
 impl RenderXVelocity {
 
@@ -95,7 +89,6 @@ impl RenderXVelocity {
 
     }
 
-
     pub fn record(
         &self,
         encoder: &mut wgpu::CommandEncoder,
@@ -110,7 +103,7 @@ impl RenderXVelocity {
                 color_attachments: &[
                     Some(
                         wgpu::RenderPassColorAttachment {
-                            view: view,
+                            view,
                             depth_slice: None,
                             resolve_target: None,
                             ops: wgpu::Operations {
@@ -123,7 +116,7 @@ impl RenderXVelocity {
                 depth_stencil_attachment: None,
                 timestamp_writes: None,
                 occlusion_query_set: None,
-                multiview_mask: None       
+                multiview_mask: None
             }
         );
 
@@ -135,6 +128,3 @@ impl RenderXVelocity {
     }
 
 }
-
-
-

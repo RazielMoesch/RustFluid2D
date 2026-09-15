@@ -1,8 +1,5 @@
 use crate::gpu::utils::{COMPUTE, storage_buffer, uniform_buffer};
 
-
-
-
 pub struct ComputeInitialConditions {
 
     pub bgl0: wgpu::BindGroupLayout,
@@ -14,7 +11,6 @@ pub struct ComputeInitialConditions {
 impl ComputeInitialConditions {
 
     pub fn new( device: &wgpu::Device ) -> Self {
-        
 
         let bgl0 = device.create_bind_group_layout(
             &wgpu::BindGroupLayoutDescriptor {
@@ -70,7 +66,6 @@ impl ComputeInitialConditions {
             pipeline
         }
 
-
     }
 
     pub fn record(
@@ -95,4 +90,3 @@ impl ComputeInitialConditions {
     }
 
 }
-

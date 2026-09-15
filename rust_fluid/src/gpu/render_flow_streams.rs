@@ -1,8 +1,5 @@
 use crate::gpu::utils::{VERTEX, storage_buffer, uniform_buffer};
 
-
-
-
 pub struct RenderFlowStreams {
     pub bgl0: wgpu::BindGroupLayout,
     pub bgl1: wgpu::BindGroupLayout,
@@ -12,7 +9,6 @@ pub struct RenderFlowStreams {
 impl RenderFlowStreams {
 
     pub fn new(device: &wgpu::Device, config: &wgpu::SurfaceConfiguration) -> Self {
-
 
         let bgl0 = device.create_bind_group_layout(
             &wgpu::BindGroupLayoutDescriptor {
@@ -83,7 +79,6 @@ impl RenderFlowStreams {
             }
         );
 
-
         Self {
             bgl0,
             bgl1,
@@ -107,7 +102,7 @@ impl RenderFlowStreams {
                 color_attachments: &[
                     Some(
                         wgpu::RenderPassColorAttachment {
-                            view: view,
+                            view,
                             depth_slice: None,
                             resolve_target: None,
                             ops: wgpu::Operations {
@@ -128,7 +123,6 @@ impl RenderFlowStreams {
         pass.set_bind_group(0, bg0, &[]);
         pass.set_bind_group(1, bg1, &[]);
         pass.draw(0..6, 0..num_vertices);
-        
 
     }
 

@@ -1,15 +1,10 @@
 use crate::gpu::utils::{FRAGMENT, storage_buffer, uniform_buffer};
 
-
-
-
-
 pub struct RenderCurl {
     pub bgl0: wgpu::BindGroupLayout,
     pub bgl1: wgpu::BindGroupLayout,
     pub pipeline: wgpu::RenderPipeline
 }
-
 
 impl RenderCurl {
 
@@ -39,7 +34,7 @@ impl RenderCurl {
                 label: Some("RC Pipeline Layout"),
                 bind_group_layouts: &[
                     Some(&bgl0),
-                    Some(&bgl1) 
+                    Some(&bgl1)
                 ],
                 immediate_size: 0
             }
@@ -106,7 +101,7 @@ impl RenderCurl {
                 color_attachments: &[
                     Some(
                         wgpu::RenderPassColorAttachment {
-                            view: view,
+                            view,
                             depth_slice: None,
                             resolve_target: None,
                             ops: wgpu::Operations {
@@ -131,4 +126,3 @@ impl RenderCurl {
     }
 
 }
-

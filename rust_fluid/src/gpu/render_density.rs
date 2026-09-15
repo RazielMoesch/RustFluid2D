@@ -1,19 +1,14 @@
 use crate::gpu::utils::{FRAGMENT, storage_buffer, uniform_buffer};
 
-
-
-
 pub struct RenderDensity {
     pub bgl0: wgpu::BindGroupLayout,
     pub bgl1: wgpu::BindGroupLayout,
     pub pipeline: wgpu::RenderPipeline
 }
 
-
 impl RenderDensity {
 
     pub fn new( device: &wgpu::Device, config: &wgpu::SurfaceConfiguration ) -> Self {
-
 
         let bgl0 = device.create_bind_group_layout(
             &wgpu::BindGroupLayoutDescriptor {
@@ -101,14 +96,13 @@ impl RenderDensity {
 
     ) {
 
-
         let mut pass  = encoder.begin_render_pass(
             &wgpu::RenderPassDescriptor {
                  label: Some("RD Render Pass"),
                  color_attachments: &[
                     Some(
                         wgpu::RenderPassColorAttachment {
-                            view: view,
+                            view,
                             resolve_target: None,
                             ops: wgpu::Operations {
                                 load: wgpu::LoadOp::Clear(wgpu::Color::BLACK),

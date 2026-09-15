@@ -1,13 +1,17 @@
 
-struct Uniforms { // 32
-    w: u32, // 4
-    h: u32, // 4
-    tau: f32, // 4
-    u_lb: f32, // 4
-    w_object: u32, // 4
-    h_object: u32, // 4
-    is_first_step: u32, // 4
-    _pad: u32 // 4
+struct Uniforms {
+    w: u32,
+    h: u32,
+    tau: f32,
+    u_lb: f32,
+    w_object: u32,
+    h_object: u32,
+    is_first_step: u32,
+    obj_x: u32,
+    obj_y: u32,
+    _pad1: u32,
+    _pad2: u32,
+    _pad3: u32,
 };
 
 @group(0) @binding(0) var<uniform> uniforms: Uniforms;
@@ -47,7 +51,6 @@ fn compute(@builtin(global_invocation_id) id: vec3<u32>) {
         return;
     }
 
-    // 1. STREAMING (Execute for all active cells first)
     for (var i = 0u; i < 9u; i += 1u) {
         var xsrc = i32(x) - i32(EX[i]);
         var ysrc = i32(y) - i32(EY[i]);
@@ -56,23 +59,22 @@ fn compute(@builtin(global_invocation_id) id: vec3<u32>) {
         if (xsrc >= i32(w)) { xsrc = i32(w) - 1; } else if (xsrc < 0) { xsrc = 0; }
 
         let src_idx = u32(ysrc) * w + u32(xsrc);
-        
+
         if (types[src_idx] == SOLID) {
-            fb[idx+i] = fa[idx + get_opp[i]]; // Bounce-back
+            fb[idx+i] = fa[idx + get_opp[i]];
         } else {
-            fb[idx+i] = fa[src_idx * 9u + i]; // Standard streaming
+            fb[idx+i] = fa[src_idx * 9u + i];
         }
     }
 
-    // 2. BOUNDARY CONDITIONS (Apply to the newly streamed fb values)
     if (cell_type == OUTLET) {
         let inner_idx = 9u * (y * w + x - 1u);
         for (var i = 0u; i < 9u; i += 1u) {
-            fb[idx + i] = fb[inner_idx + i]; 
-            fa[idx + i] = fb[idx + i]; // Outlets skip collision
+            fb[idx + i] = fb[inner_idx + i];
+            fa[idx + i] = fb[idx + i];
         }
         return;
-    } 
+    }
     else if (cell_type == INLET) {
         let u_lb = uniforms.u_lb;
         let f0 = fb[idx + 0u]; let f2 = fb[idx + 2u]; let f4 = fb[idx + 4u];
@@ -85,7 +87,6 @@ fn compute(@builtin(global_invocation_id) id: vec3<u32>) {
         fb[idx + 8u] = f6 + 0.5 * (f2 - f4) + (1.0 / 6.0) * rho_in * u_lb;
     }
 
-    // 3. COLLISION
     var density = 0.0;
     var mx = 0.0; var my = 0.0;
     for (var i = 0u; i < 9u; i += 1u) {
@@ -105,17 +106,4 @@ fn compute(@builtin(global_invocation_id) id: vec3<u32>) {
         fa[idx+i] = fb[idx+i] - omega * (fb[idx+i] - feq);
     }
 
-
 }
-
-
-
-
-
-
-
-
-
-
-
-

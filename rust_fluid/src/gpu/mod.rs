@@ -1,5 +1,4 @@
-
-
+#![allow(clippy::module_inception)]
 
 pub mod gpu;
 pub mod resources;
@@ -15,5 +14,3 @@ pub mod render_tracers;
 pub mod render_x_velocity;
 pub mod render_y_velocity;
 pub mod render_curl;
-
-

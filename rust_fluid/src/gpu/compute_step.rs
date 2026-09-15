@@ -1,11 +1,6 @@
 
 use crate::gpu::utils::{COMPUTE, storage_buffer, uniform_buffer};
 
-
-
-
-
-
 pub struct ComputeStep {
     pub bgl0: wgpu::BindGroupLayout,
     pub bgl1: wgpu::BindGroupLayout,

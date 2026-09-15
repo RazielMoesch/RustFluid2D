@@ -1,15 +1,10 @@
 use crate::gpu::utils::{COMPUTE, storage_buffer, uniform_buffer};
 
-
-
-
-
 pub struct ComputeTracers {
     pub bgl0: wgpu::BindGroupLayout,
     pub bgl1: wgpu::BindGroupLayout,
     pub pipeline: wgpu::ComputePipeline
 }
-
 
 impl ComputeTracers {
 
@@ -58,7 +53,6 @@ impl ComputeTracers {
             }
         );
 
-
         Self {
             bgl0,
             bgl1,
@@ -66,14 +60,13 @@ impl ComputeTracers {
         }
     }
 
-
     pub fn record(
         &self,
         encoder: &mut wgpu::CommandEncoder,
         bg0: &wgpu::BindGroup,
         bg1: &wgpu::BindGroup,
         num_workgroups: u32
-    ) -> () {
+    ) {
 
         let mut pass = encoder.begin_compute_pass(
             &wgpu::ComputePassDescriptor::default()
@@ -89,4 +82,3 @@ impl ComputeTracers {
     }
 
 }
-

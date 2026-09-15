@@ -2,22 +2,15 @@ use wgpu::{FragmentState, VertexState};
 
 use crate::gpu::utils::{FRAGMENT, storage_buffer, uniform_buffer};
 
-
-
-
-
 pub struct RenderYVelocity {
     pub bgl0: wgpu::BindGroupLayout,
     pub bgl1: wgpu::BindGroupLayout,
     pub pipeline: wgpu::RenderPipeline
 }
 
-
 impl RenderYVelocity {
 
     pub fn new( device: &wgpu::Device, config: &wgpu::SurfaceConfiguration ) -> Self {
-
-
 
         let bgl0 = device.create_bind_group_layout(
             &wgpu::BindGroupLayoutDescriptor {
@@ -88,13 +81,11 @@ impl RenderYVelocity {
             }
         );
 
-
         Self {
             bgl0,
             bgl1,
             pipeline
         }
-
 
     }
 
@@ -112,7 +103,7 @@ impl RenderYVelocity {
                 color_attachments: &[
                     Some(
                         wgpu::RenderPassColorAttachment {
-                            view: view,
+                            view,
                             depth_slice: None,
                             resolve_target: None,
                             ops: wgpu::Operations {
@@ -137,5 +128,3 @@ impl RenderYVelocity {
     }
 
 }
-
-

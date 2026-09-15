@@ -2,7 +2,6 @@
 use std::sync::Arc;
 use winit::window::Window;
 
-
 pub struct GPU {
     pub instance: wgpu::Instance,
     pub surface: wgpu::Surface<'static>,
@@ -37,6 +36,7 @@ impl GPU {
         ).await.expect("Failed to Get Device & Queue");
 
         let config = surface.get_default_config(&adapter, size.width, size.height).expect("Failed to Get Configuration");
+        surface.configure(&device, &config);
 
         Self {
             instance,
@@ -50,7 +50,7 @@ impl GPU {
     }
 
     pub fn resize( &mut self, new_size: winit::dpi::PhysicalSize<u32>) {
-        if new_size.width <= 0 || new_size.height <= 0 { return; }
+        if new_size.width == 0 || new_size.height == 0 { return; }
 
         self.config.width = new_size.width;
         self.config.height = new_size.height;
@@ -58,4 +58,3 @@ impl GPU {
     }
 
 }
-

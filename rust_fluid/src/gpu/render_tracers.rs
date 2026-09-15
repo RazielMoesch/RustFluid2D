@@ -1,9 +1,5 @@
 
-
 use crate::gpu::utils::{VERTEX, storage_buffer, uniform_buffer};
-
-
-
 
 pub struct RenderTracers {
     pub bgl0: wgpu::BindGroupLayout,
@@ -11,11 +7,9 @@ pub struct RenderTracers {
     pub pipeline: wgpu::RenderPipeline
 }
 
-
 impl RenderTracers {
 
     pub fn new( device: &wgpu::Device, config: &wgpu::SurfaceConfiguration ) -> Self {
-
 
         let bgl0 = device.create_bind_group_layout(
             &wgpu::BindGroupLayoutDescriptor {
@@ -107,7 +101,7 @@ impl RenderTracers {
                 color_attachments: &[
                     Some(
                         wgpu::RenderPassColorAttachment {
-                            view: view,
+                            view,
                             depth_slice: None,
                             resolve_target: None,
                             ops: wgpu::Operations {
@@ -132,5 +126,3 @@ impl RenderTracers {
     }
 
 }
-
-

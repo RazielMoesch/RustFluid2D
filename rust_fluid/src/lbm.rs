@@ -420,4 +420,3 @@ impl LBM {
         queue.write_buffer(&self.buffers.uniforms, 0, bytemuck::cast_slice(&[uniforms]));
     }
 }
-

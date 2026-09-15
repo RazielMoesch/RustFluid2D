@@ -1,13 +1,10 @@
 use crate::gpu::utils::{COMPUTE, storage_buffer, uniform_buffer};
 
-
-
 pub struct ComputeMacros {
     pub bgl0: wgpu::BindGroupLayout,
     pub bgl1: wgpu::BindGroupLayout,
     pub pipeline: wgpu::ComputePipeline
 }
-
 
 impl ComputeMacros {
     pub fn new(device: &wgpu::Device) -> Self {
@@ -56,7 +53,6 @@ impl ComputeMacros {
             }
         );
 
-
         Self {
             bgl0,
             bgl1,
@@ -83,6 +79,3 @@ impl ComputeMacros {
 
     }
 }
-
-
-

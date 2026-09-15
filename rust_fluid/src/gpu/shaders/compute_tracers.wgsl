@@ -1,13 +1,17 @@
 
-struct Uniforms { // 32
-    w: u32, // 4
-    h: u32, // 4
-    tau: f32, // 4
-    u_lb: f32, // 4
-    w_object: u32, // 4
-    h_object: u32, // 4
-    is_first_step: u32, // 4
-    _pad: u32 // 4
+struct Uniforms {
+    w: u32,
+    h: u32,
+    tau: f32,
+    u_lb: f32,
+    w_object: u32,
+    h_object: u32,
+    is_first_step: u32,
+    obj_x: u32,
+    obj_y: u32,
+    _pad1: u32,
+    _pad2: u32,
+    _pad3: u32,
 };
 
 struct Tracer {
@@ -18,7 +22,6 @@ struct Tracer {
 @group(0) @binding(0) var<uniform> uniforms: Uniforms;
 @group(1) @binding(0) var<storage, read> velocity: array<vec2<f32>>;
 @group(1) @binding(1) var<storage, read_write> tracers: array<Tracer>;
-
 
 @compute @workgroup_size(64)
 fn compute_tracers(@builtin(global_invocation_id) id: vec3<u32>) {
@@ -36,16 +39,16 @@ fn compute_tracers(@builtin(global_invocation_id) id: vec3<u32>) {
     }
 
     if (pos.x >= f32(uniforms.w) - 2.0 || pos.x < 1.0) {
-        pos.x = 2.0; 
+        pos.x = 2.0;
         tracers[tracer_idx].pos = pos;
-        tracers[tracer_idx].prev_pos = pos; // Instantly snap tail so it doesn't streak across screen
+        tracers[tracer_idx].prev_pos = pos;
         return;
     }
-    
+
     if (pos.y >= f32(uniforms.h) - 2.0 || pos.y < 1.0) {
-        pos.x = 2.0; 
+        pos.x = 2.0;
         tracers[tracer_idx].pos = pos;
-        tracers[tracer_idx].prev_pos = pos; 
+        tracers[tracer_idx].prev_pos = pos;
         return;
     }
 
@@ -71,5 +74,3 @@ fn compute_tracers(@builtin(global_invocation_id) id: vec3<u32>) {
     tracers[tracer_idx].pos = new_pos;
 
 }
-
-
